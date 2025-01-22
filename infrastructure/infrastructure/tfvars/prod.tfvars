@@ -41,3 +41,8 @@ acr_name = "acrregistry07xyz"
 # Storage Account
 
 storage_account_name = "storageacc98765xyz"
+
+#############################################################
+# Log Analytics
+
+log_analytics_workspace_name = "log-analytics-workspace"

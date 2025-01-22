@@ -24,6 +24,24 @@ resource "azurerm_postgresql_flexible_server" "postgres" {
   }
 }
 
+resource "azurerm_monitor_diagnostic_setting" "postgresql_diagnostics" {
+  name                       = "diag"
+  target_resource_id         = azurerm_postgresql_flexible_server.postgres.id
+  log_analytics_workspace_id = var.log_analytics_workspace_id
+
+  enabled_log {
+    category_group = "audit"
+  }
+
+  enabled_log {
+    category_group = "allLogs"
+  }
+
+  metric {
+    category = "AllMetrics"
+    enabled  = true
+  }
+}
 #resource "azurerm_postgresql_flexible_server_database" "db" {
 #  name      = var.database_name
 #  server_id = azurerm_postgresql_flexible_server.postgres.id

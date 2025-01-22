@@ -40,6 +40,7 @@ module "postgresql" {
   resource_group = module.resource_group.resource_group_name
   admin_user     = var.pg_admin_user
   admin_password = var.pg_admin_password
+  log_analytics_workspace_id = module.log_analytics.workspace_id 
 
   depends_on = [module.resource_group]
 
@@ -82,3 +83,13 @@ module "storage" {
   depends_on = [module.resource_group]
 }
 
+#############################################################
+# Log Analytics
+module "log_analytics" {
+  source              = "./modules/log-analytics"
+  workspace_name      = var.log_analytics_workspace_name
+  location            = var.location
+  resource_group_name = module.resource_group.resource_group_name
+
+  depends_on = [module.resource_group]
+}

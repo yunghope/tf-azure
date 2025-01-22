@@ -97,3 +97,9 @@ variable "storage_account_name" {
   type        = string
   description = "Name of the storage account"
 }
+
+#######################
+variable "log_analytics_workspace_name" {
+  type        = string
+  description = "Name of the Log Analytics Workspace"
+}

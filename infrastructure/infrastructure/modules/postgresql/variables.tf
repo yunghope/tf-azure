@@ -23,3 +23,8 @@ variable "admin_password" {
   description = "PostgreSQL admin password"
   sensitive   = true
 }
+
+variable "log_analytics_workspace_id" {
+  type        = string
+  description = "ID of the Log Analytics Workspace for diagnostics"
+}
