@@ -1,7 +1,7 @@
 resource "azurerm_postgresql_flexible_server" "postgres" {
   name                = var.server_name
   resource_group_name = var.resource_group
-  location            = "francesouth"
+  location            = "francecentral"
   version            = "13"
 
   administrator_login    = var.admin_user
@@ -18,9 +18,9 @@ resource "azurerm_postgresql_flexible_server" "postgres" {
   }
 }
 
-resource "azurerm_postgresql_flexible_server_database" "db" {
-  name      = var.database_name
-  server_id = azurerm_postgresql_flexible_server.postgres.id
-  charset   = "UTF8"
-  collation = "en_US.utf8"
-}
+#resource "azurerm_postgresql_flexible_server_database" "db" {
+#  name      = var.database_name
+#  server_id = azurerm_postgresql_flexible_server.postgres.id
+#  charset   = "UTF8"
+#  collation = "en_US.utf8"
+#}

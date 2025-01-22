@@ -26,6 +26,8 @@ module "vm_apache" {
   subnet_id           = module.network.subnet_ids[0]
   admin_username      = var.admin_username
   ssh_public_key      = file("~/.ssh/id_rsa.pub")
+
+  depends_on = [module.network]
 }
 
 #############################################################
@@ -37,6 +39,9 @@ module "postgresql" {
   resource_group = module.resource_group.resource_group_name
   admin_user     = var.pg_admin_user
   admin_password = var.pg_admin_password
+
+  depends_on = [module.resource_group]
+
 }
 
 

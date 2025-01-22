@@ -5,7 +5,7 @@ client_id       = "1ef865dc-c230-442c-be60-23483b42145b"
 client_secret   = ".Tu8Q~pt5PsIj8QQgG~w-l1qJcA_Li_7C2ukHc7b"
 tenant_id       = "b7b023b8-7c32-4c02-92a6-c8cdaa1d189c"
 rg_name         = "test-rg"
-location        = "francesouth"
+location        = "francecentral"
 
 #############################################################
 # VM Apache variables
@@ -16,7 +16,7 @@ ssh_public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC7uqvd6455PPzEClmiC26gfD
 
 #############################################################
 # PostgreSQL variables
-pg_server_name  = "postgresql-france-south"
+pg_server_name  = "postgresql-francecentral"
 pg_db_name      = "mydatabase"
 pg_admin_user   = "pgadmin"
 pg_admin_password = "testPassword123"
