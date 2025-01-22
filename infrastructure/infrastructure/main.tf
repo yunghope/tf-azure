@@ -44,4 +44,38 @@ module "postgresql" {
 
 }
 
+#############################################################
+#module "aks" {
+#  source              = "./modules/aks"
+#  cluster_name        = var.aks_cluster_name
+#  location            = var.location
+#  resource_group_name = module.resource_group.resource_group_name
+#  dns_prefix          = var.aks_dns_prefix
+#  node_count          = var.aks_node_count
+#  vm_size            = var.aks_vm_size
+#
+#  depends_on = [module.resource_group]
+#}
+
+#############################################################
+module "acr" {
+  source              = "./modules/acr"
+  acr_name            = var.acr_name
+  location            = var.location
+  resource_group_name = module.resource_group.resource_group_name
+  aks_principal_id    =  "" #module.cluster_identity_principal_id #si il y a aks alors on ajoute module.aks
+
+  depends_on = [module.resource_group, module.storage] #si il y a aks alors on ajoute module.aks
+}
+
+
+#############################################################
+module "storage" {
+  source               = "./modules/storage-account"
+  storage_account_name = var.storage_account_name
+  location            = var.location
+  resource_group_name = module.resource_group.resource_group_name
+
+  depends_on = [module.resource_group]
+}
 

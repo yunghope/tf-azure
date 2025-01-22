@@ -2,16 +2,22 @@ resource "azurerm_postgresql_flexible_server" "postgres" {
   name                = var.server_name
   resource_group_name = var.resource_group
   location            = "francecentral"
-  version            = "13"
+  version             = "13"
+  zone                = "3"
 
   administrator_login    = var.admin_user
   administrator_password = var.admin_password
 
   storage_mb = 32768
-  sku_name   = "B_Standard_B1ms"
+  sku_name   = "GP_Standard_D2ds_v4"
 
   backup_retention_days        = 7
   geo_redundant_backup_enabled = false
+
+  high_availability {
+    mode = "SameZone"
+    standby_availability_zone = "3"
+  }
 
   tags = {
     Environment = "Development"

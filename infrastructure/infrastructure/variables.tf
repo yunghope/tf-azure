@@ -40,6 +40,7 @@ variable "admin_username" {
   default     = "azureuser"
 }
 
+#######################
 variable "pg_server_name" {
   type        = string
   description = "Name of the PostgreSQL server"
@@ -61,7 +62,38 @@ variable "pg_admin_password" {
   sensitive   = true
 }
 
+#######################
 variable "ssh_public_key" {
   type        = string
   description = "SSH public key for VM authentication"
+}
+
+#variable "aks_cluster_name" {
+#  type = string
+#}
+
+#variable "aks_dns_prefix" {
+#  type = string
+#}
+
+#variable "aks_node_count" {
+#  type    = number
+#  default = 1
+#}
+
+#variable "aks_vm_size" {
+#  type    = string
+#  default = "Standard_D2_v2"
+#}
+
+#######################
+variable "acr_name" {
+  type        = string
+  description = "Name of the Azure Container Registry"
+}
+
+#######################
+variable "storage_account_name" {
+  type        = string
+  description = "Name of the storage account"
 }
