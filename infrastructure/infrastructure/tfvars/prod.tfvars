@@ -5,7 +5,7 @@ client_id       = "1ef865dc-c230-442c-be60-23483b42145b"
 client_secret   = ".Tu8Q~pt5PsIj8QQgG~w-l1qJcA_Li_7C2ukHc7b"
 tenant_id       = "b7b023b8-7c32-4c02-92a6-c8cdaa1d189c"
 rg_name         = "test-rg"
-location        = "West Europe"
+location        = "francesouth"
 
 #############################################################
 # VM Apache variables
