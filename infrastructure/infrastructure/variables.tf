@@ -67,24 +67,24 @@ variable "ssh_public_key" {
   type        = string
   description = "SSH public key for VM authentication"
 }
+#######################
+variable "aks_cluster_name" {
+  type = string
+}
 
-#variable "aks_cluster_name" {
-#  type = string
-#}
+variable "aks_dns_prefix" {
+  type = string
+}
 
-#variable "aks_dns_prefix" {
-#  type = string
-#}
+variable "aks_node_count" {
+  type    = number
+  default = 1
+}
 
-#variable "aks_node_count" {
-#  type    = number
-#  default = 1
-#}
-
-#variable "aks_vm_size" {
-#  type    = string
-#  default = "Standard_D2_v2"
-#}
+variable "kubernetes_version" {
+  type    = string
+  default = "1.26.6"
+}
 
 #######################
 variable "acr_name" {

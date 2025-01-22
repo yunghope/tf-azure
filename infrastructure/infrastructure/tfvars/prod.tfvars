@@ -24,13 +24,6 @@ pg_db_name      = "mydatabase"
 pg_admin_user   = "pgadmin"
 pg_admin_password = "testPassword123"
 
-#############################################################
-# AKS 
-
-#aks_cluster_name = "AKSCluster"
-#aks_dns_prefix   = "aks-cluster-dns"
-#aks_node_count   = 1
-#aks_vm_size      = "Standard_D2_v2"
 
 #############################################################
 # Acr
@@ -46,3 +39,11 @@ storage_account_name = "storageacc98765xyz"
 # Log Analytics
 
 log_analytics_workspace_name = "log-analytics-workspace"
+
+#############################################################
+# AKS 
+
+aks_cluster_name    = "aks-luster"
+aks_dns_prefix      = "aks-dns"
+aks_node_count      = 1
+kubernetes_version  = "1.31.3"

@@ -46,18 +46,6 @@ module "postgresql" {
 
 }
 
-#############################################################
-#module "aks" {
-#  source              = "./modules/aks"
-#  cluster_name        = var.aks_cluster_name
-#  location            = var.location
-#  resource_group_name = module.resource_group.resource_group_name
-#  dns_prefix          = var.aks_dns_prefix
-#  node_count          = var.aks_node_count
-#  vm_size            = var.aks_vm_size
-#
-#  depends_on = [module.resource_group]
-#}
 
 #############################################################
 # Azure Container Registry
@@ -92,4 +80,18 @@ module "log_analytics" {
   resource_group_name = module.resource_group.resource_group_name
 
   depends_on = [module.resource_group]
+}
+#############################################################
+# AKS
+module "aks" {
+  source                     = "./modules/aks"
+  cluster_name               = var.aks_cluster_name
+  location                   = var.location
+  resource_group_name        = module.resource_group.resource_group_name
+  dns_prefix                 = var.aks_dns_prefix
+  node_count                 = var.aks_node_count
+  kubernetes_version         = var.kubernetes_version
+  log_analytics_workspace_id = module.log_analytics.workspace_id
+
+  depends_on = [module.resource_group, module.log_analytics]
 }
