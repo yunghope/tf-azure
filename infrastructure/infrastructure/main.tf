@@ -1,3 +1,4 @@
+# Resource group
 module "resource_group" {
   source   = "./modules/resource_group"
   rg_name  = var.rg_name
@@ -5,7 +6,7 @@ module "resource_group" {
 }
 
 #############################################################
-
+# Network
 module "network" {
   source              = "./modules/network"
   vnet_name           = "test-vnet"
@@ -17,7 +18,7 @@ module "network" {
 }
 
 #############################################################
-
+# Virtual Machine
 module "vm_apache" {
   source              = "./modules/vm_apache"
   vm_name             = var.vm_name
@@ -31,7 +32,7 @@ module "vm_apache" {
 }
 
 #############################################################
-
+# PostgreSQL
 module "postgresql" {
   source         = "./modules/postgresql"
   server_name    = var.pg_server_name
@@ -58,6 +59,7 @@ module "postgresql" {
 #}
 
 #############################################################
+# Azure Container Registry
 module "acr" {
   source              = "./modules/acr"
   acr_name            = var.acr_name
@@ -70,6 +72,7 @@ module "acr" {
 
 
 #############################################################
+# Storage Account
 module "storage" {
   source               = "./modules/storage-account"
   storage_account_name = var.storage_account_name
