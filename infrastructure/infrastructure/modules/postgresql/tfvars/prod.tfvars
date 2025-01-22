@@ -1,0 +1,5 @@
+server_name    = "postgres-server"
+database_name  = "DB-test"
+resource_group = "test-rg"
+admin_user     = "pgadmin"
+admin_password = "testPassword123"
