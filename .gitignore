@@ -10,6 +10,7 @@ crash.log
 crash.*.log
 
 # Sensitive variables files
+*.env
 .env
 
 # Override files

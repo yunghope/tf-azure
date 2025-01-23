@@ -103,3 +103,25 @@ variable "log_analytics_workspace_name" {
   type        = string
   description = "Name of the Log Analytics Workspace"
 }
+
+#######################
+variable "postgresql_server_admin_login" {
+  type        = string
+  description = "PostgreSQL server admin login"
+}
+
+variable "postgresql_server_admin_password" {
+  type        = string
+  description = "PostgreSQL server admin password"
+  sensitive   = true
+}
+
+# variable "project_name" {
+#   type        = string
+#   description = "Name of the project"
+# }
+
+# variable "resource_group_name" {
+#   type        = string
+#   description = "Name of the resource group"
+# }

@@ -47,3 +47,9 @@ aks_cluster_name    = "aks-luster"
 aks_dns_prefix      = "aks-dns"
 aks_node_count      = 1
 kubernetes_version  = "1.31.3"
+
+#############################################################
+# postgreSQL - backend
+postgresql_server_admin_login    = "postgresadmin"
+postgresql_server_admin_password = "Password123"
+

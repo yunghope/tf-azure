@@ -95,3 +95,48 @@ module "aks" {
 
   depends_on = [module.resource_group, module.log_analytics]
 }
+
+#############################################################
+# Kubernetes Backend
+module "k8s_backend" {
+  source = "./modules/k8s-backend"
+
+  acr_server                        = module.acr.login_server
+  pg_hostname                       = module.postgresql.server_name
+  postgresql_server_admin_login     = var.postgresql_server_admin_login
+  postgresql_server_admin_password  = var.postgresql_server_admin_password
+  app_insights_connection_string    = module.application_insights.connection_string
+  log_analytics_workspace_id        = module.log_analytics.workspace_id
+
+  depends_on = [
+    module.postgresql,
+    module.acr,
+    module.log_analytics
+  ]
+}
+
+module "application_insights" {
+  source              = "./modules/application-insights"
+  name                = "test-rg-appinsights"  # Based on your existing resource group name
+  location            = var.location
+  resource_group_name = "test-rg"  # Your existing resource group name
+  workspace_id        = module.log_analytics.workspace_id
+}
+
+#############################################################
+module "monitoring" {
+  source = "./modules/monitoring"
+  
+  depends_on = [module.aks]
+}
+
+#############################################################
+
+module "ingress_nginx" {
+  source = "./modules/ingress-nginx-front"
+  
+  resource_group_name = module.resource_group.name
+  location           = var.location
+
+  depends_on = [module.aks]
+}
