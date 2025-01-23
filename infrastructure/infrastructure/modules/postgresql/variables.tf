@@ -28,3 +28,14 @@ variable "log_analytics_workspace_id" {
   type        = string
   description = "ID of the Log Analytics Workspace for diagnostics"
 }
+
+variable "environment" {
+  type = string
+  description = "Environment (dev, recette, prod)"
+}
+
+variable "high_availability" {
+  type = bool
+  description = "Enable high availability (only for prod)"
+  default = false
+}

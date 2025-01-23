@@ -1,8 +1,26 @@
+locals {
+  environment_config = {
+    dev = {
+      high_availability = false
+      node_count = 1
+    }
+    recette = {
+      high_availability = false
+      node_count = 2
+    }
+    prod = {
+      high_availability = true
+      node_count = 3
+    }
+  }
+}
+
 # Resource group
 module "resource_group" {
-  source   = "./modules/resource_group"
-  rg_name  = var.rg_name
-  location = var.location
+  source      = "./modules/resource_group"
+  rg_name     = var.rg_name
+  location    = var.location
+  environment = var.environment
 }
 
 #############################################################
@@ -40,12 +58,12 @@ module "postgresql" {
   resource_group = module.resource_group.resource_group_name
   admin_user     = var.pg_admin_user
   admin_password = var.pg_admin_password
+  environment    = var.environment
+  high_availability = local.environment_config[var.environment].high_availability
   log_analytics_workspace_id = module.log_analytics.workspace_id 
 
   depends_on = [module.resource_group]
-
 }
-
 
 #############################################################
 # Azure Container Registry
@@ -100,7 +118,8 @@ module "aks" {
 # Kubernetes Backend
 module "k8s_backend" {
   source = "./modules/k8s-backend"
-
+  environment = var.environment
+  
   acr_server                        = module.acr.login_server
   pg_hostname                       = module.postgresql.server_name
   postgresql_server_admin_login     = var.postgresql_server_admin_login

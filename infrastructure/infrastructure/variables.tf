@@ -116,12 +116,34 @@ variable "postgresql_server_admin_password" {
   sensitive   = true
 }
 
-# variable "project_name" {
-#   type        = string
-#   description = "Name of the project"
-# }
+#######################
+variable "environment" {
+  type        = string
+  description = "Environment (dev, recette, prod)"
+}
 
-# variable "resource_group_name" {
-#   type        = string
-#   description = "Name of the resource group"
-# }
+
+variable "database_name" {
+  type        = string
+  description = "Name of the database"
+}
+
+variable "server_name" {
+  type        = string
+  description = "Name of the server"
+}
+
+variable "resource_group" {
+  type        = string
+  description = "Resource group name"
+}
+variable "admin_user" {
+  type        = string
+  description = "Admin username"
+}
+
+variable "admin_password" {
+  type        = string
+  description = "Admin password"
+  sensitive   = true
+}

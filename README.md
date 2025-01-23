@@ -1,5 +1,34 @@
 # Alexandre Huynh
 
+### Objectives done ✅
+
+- Migration progressive du monolithique vers microservices
+- Backend déplacé vers Kubernetes avec isolation par environnement
+- VM Apache maintenue pour le frontend
+- Ingress-nginx configuré pour la gestion du trafic
+
+##### Configuration des environnements
+
+DEV : Configuration légère pour tests (1 replica, PostgreSQL basique)
+
+RECETTE : Configuration intermédiaire (2 replicas, PostgreSQL plus robuste)
+
+PROD : Configuration haute disponibilité (3 replicas, PostgreSQL en HA)
+
+PostgreSQL
+DEV/RECETTE : Single server
+PROD : Haute disponibilité avec 2 serveurs (ZoneRedundant)
+
+Workspaces pour isoler les environnements
+Variables adaptées par environnement
+Modules réutilisables
+
+##### Scalabilité
+
+Tests progressifs (DEV → RECETTE → PROD)
+Haute disponibilité en production
+Isolation des environnements
+
 ### Azure commands
 
 - az login
@@ -71,3 +100,92 @@ terraform import -var-file="tfvars/prod.tfvars" module.postgresql.azurerm_monito
 terraform import -var-file="tfvars/prod.tfvars" module.k8s_backend.kubernetes_namespace.backend backend
 terraform import -var-file="tfvars/prod.tfvars" module.k8s_backend.kubernetes_deployment.backend backend/backend-deployment
 terraform import -var-file="tfvars/prod.tfvars" module.k8s_backend.kubernetes_service.backend backend/backend-service
+
+
+##### Screenshots 
+
+Malheureusement pas assez de quotas pour les IP Publics pour les VMs Apache mais le code est crée.
+
+![alt text](<Screenshot 2025-01-23 at 3.23.16 PM.png>)
+
+---
+
+###### Resources groups
+
+![alt text](<Screenshot 2025-01-23 at 3.23.43 PM.png>)
+
+![`alt text`](<Screenshot 2025-01-23 at 3.24.56 PM.png>)
+
+![alt text](<Screenshot 2025-01-23 at 3.25.11 PM.png>)
+
+![alt text](<Screenshot 2025-01-23 at 3.25.54 PM.png>)
+
+---
+
+###### Azure Postgresql 
+
+![alt text](<Screenshot 2025-01-23 at 3.26.37 PM.png>)
+
+Exemple de log
+
+![alt text](<Screenshot 2025-01-23 at 3.27.17 PM.png>)
+
+---
+
+##### Log Analytics
+
+![alt text](<Screenshot 2025-01-23 at 3.27.41 PM.png>)
+
+Exemple de logs
+
+![alt text](<Screenshot 2025-01-23 at 3.28.40 PM.png>)
+
+![alt text](<Screenshot 2025-01-23 at 3.29.03 PM.png>)
+
+
+---
+
+###### Storage Accounts
+
+![alt text](<Screenshot 2025-01-23 at 3.29.18 PM.png>)
+
+Exemple de log
+
+![alt text](<Screenshot 2025-01-23 at 3.30.17 PM.png>)
+
+---
+
+###### AKS Cluster
+
+Pas assez de quotas pour recette
+
+![alt text](<Screenshot 2025-01-23 at 3.30.53 PM.png>)
+
+![alt text](<Screenshot 2025-01-23 at 3.31.32 PM.png>)
+
+![alt text](<Screenshot 2025-01-23 at 3.31.46 PM.png>)
+
+![alt text](<Screenshot 2025-01-23 at 3.36.50 PM.png>)
+
+---
+
+###### VM
+
+Pas assez de quotas pour le reste mais le code est crée.
+
+![alt text](<Screenshot 2025-01-23 at 3.32.13 PM.png>)
+
+![alt text](<Screenshot 2025-01-23 at 3.33.19 PM.png>)
+
+---
+
+###### Load Balancer
+
+![alt text](<Screenshot 2025-01-23 at 3.33.49 PM.png>)
+
+
+---
+
+###### Virutal Network
+
+![alt text](<Screenshot 2025-01-23 at 3.35.23 PM.png>)

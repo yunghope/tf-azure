@@ -1,45 +1,51 @@
-# 1. Création du namespace en premier
 resource "kubernetes_namespace" "backend" {
   metadata {
-    name = "backend"
+    name = "backend-${var.environment}"
     labels = {
-      environment = "production"
+      environment = var.environment
       app         = "backend"
+      managed-by  = "terraform"
     }
   }
 }
 
-# 2. Deployment avec référence au namespace
 resource "kubernetes_deployment" "backend" {
   depends_on = [kubernetes_namespace.backend]
 
   metadata {
-    name      = "backend-deployment"
+    name      = "backend-deployment-${var.environment}"
     namespace = kubernetes_namespace.backend.metadata[0].name
     labels = {
-      app = "backend"
+      app         = "backend"
+      environment = var.environment
+      managed-by  = "terraform"
     }
   }
 
   spec {
-    replicas = var.replicas
+    # Nombre de replicas selon l'environnement
+    replicas = var.environment == "prod" ? 3 : (
+      var.environment == "recette" ? 2 : 1
+    )
 
     selector {
       match_labels = {
-        app = "backend"
+        app         = "backend"
+        environment = var.environment
       }
     }
 
     template {
       metadata {
         labels = {
-          app = "backend"
+          app         = "backend"
+          environment = var.environment
         }
       }
 
       spec {
         container {
-          image = "${var.acr_server}/backend:latest"
+          image = "${var.acr_server}/backend:${var.environment}"
           name  = "backend"
 
           env {
@@ -62,25 +68,49 @@ resource "kubernetes_deployment" "backend" {
             value = var.app_insights_connection_string
           }
 
+          # Resources selon l'environnement
           resources {
             limits = {
-              cpu    = "0.5"
-              memory = "512Mi"
+              cpu    = var.environment == "prod" ? "2.0" : (
+                var.environment == "recette" ? "1.0" : "0.5"
+              )
+              memory = var.environment == "prod" ? "2Gi" : (
+                var.environment == "recette" ? "1Gi" : "512Mi"
+              )
             }
             requests = {
-              cpu    = "250m"
-              memory = "256Mi"
+              cpu    = var.environment == "prod" ? "1.0" : (
+                var.environment == "recette" ? "500m" : "250m"
+              )
+              memory = var.environment == "prod" ? "1Gi" : (
+                var.environment == "recette" ? "512Mi" : "256Mi"
+              )
             }
           }
 
+          # Healthcheck plus strict en prod
           liveness_probe {
             http_get {
               path = "/health"
               port = 80
             }
 
-            initial_delay_seconds = 30
-            period_seconds        = 10
+            initial_delay_seconds = var.environment == "prod" ? 20 : 30
+            period_seconds        = var.environment == "prod" ? 5 : 10
+            failure_threshold     = var.environment == "prod" ? 2 : 3
+          }
+
+          # Readiness probe pour prod et recette
+          dynamic "readiness_probe" {
+            for_each = var.environment != "dev" ? [1] : []
+            content {
+              http_get {
+                path = "/ready"
+                port = 80
+              }
+              initial_delay_seconds = 10
+              period_seconds       = 5
+            }
           }
         }
       }
@@ -88,17 +118,21 @@ resource "kubernetes_deployment" "backend" {
   }
 }
 
-# 3. Service avec référence au namespace
 resource "kubernetes_service" "backend" {
   depends_on = [kubernetes_namespace.backend]
 
   metadata {
-    name      = "backend-service"
+    name      = "backend-service-${var.environment}"
     namespace = kubernetes_namespace.backend.metadata[0].name
+    labels = {
+      environment = var.environment
+      managed-by  = "terraform"
+    }
   }
   spec {
     selector = {
-      app = "backend"
+      app         = "backend"
+      environment = var.environment
     }
     port {
       port        = 80
@@ -107,19 +141,3 @@ resource "kubernetes_service" "backend" {
     type = "ClusterIP"
   }
 }
-
-
-# resource "azurerm_monitor_diagnostic_setting" "backend" {
-#   depends_on = [kubernetes_deployment.backend]
-
-#   name                       = "backend-diag"
-#   target_resource_id         = kubernetes_deployment.backend.id
-#   log_analytics_workspace_id = var.log_analytics_workspace_id
-
-#   log_analytics_destination_type = "Dedicated"
-
-#   metric {
-#     category = "AllMetrics"
-#     enabled  = true
-#   }
-# }
