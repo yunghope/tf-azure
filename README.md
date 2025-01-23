@@ -30,6 +30,8 @@ Tests progressifs (DEV → RECETTE → PROD)
 Haute disponibilité en production
 Isolation des environnements
 
+----
+----
 ### Azure commands
 
 `az login`
@@ -57,6 +59,9 @@ Isolation des environnements
 `ssh -i ~/.ssh/id_rsa azureuser@IP_PUBLIC`
 
 `systemctl status apache2`
+
+----
+----
 
 #### Import if needed
 
@@ -111,6 +116,9 @@ Isolation des environnements
 `terraform import -var-file="tfvars/prod.tfvars" module.k8s_backend.kubernetes_namespace.backend backend
 terraform import -var-file="tfvars/prod.tfvars" module.k8s_backend.kubernetes_deployment.backend backend/backend-deployment
 terraform import -var-file="tfvars/prod.tfvars" module.k8s_backend.kubernetes_service.backend backend/backend-service`
+
+---
+---
 
 
 ##### Screenshots 
